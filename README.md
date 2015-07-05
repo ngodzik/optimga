@@ -2,9 +2,9 @@
 
 ## Evolutionary optimization using Go
 
-Work in progress, for now, only one part of the evolution strategies are implemented
+Work in progress, for now, only one Evolution Strategies part is implemented
 
-for example, try to optimize the sphere function:
+for example, let's try to optimize the sphere function:
 
 ```
 func sphereFunction(genes []float64) optimga.Fitness {
