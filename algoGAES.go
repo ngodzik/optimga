@@ -3,6 +3,7 @@
 package optimga
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"sort"
@@ -35,7 +36,7 @@ func (a *AlgoGAES) crossover(offspring *Pop, pcross float64) {
 	}
 }
 
-// crossover will create variation from 1 individual
+// mutation will create variation from 1 individual
 func (a *AlgoGAES) mutation(offspring *Pop, pmut float64) {
 	for i := 0; i < offspring.size(); i++ {
 
@@ -58,6 +59,8 @@ func (a *AlgoGAES) replacement(offspring *Pop) {
 
 // Run using algorithm inspired by typical evolution strategies (mu+lambda)-ES
 func (a *AlgoGAES) Run() {
+	fmt.Println("Ctrl-C to end algorithm before the planned end")
+	a.WaitSignal()
 
 	var offspring = new(Pop)
 	offspring.reset(a.nbChildren)
@@ -80,16 +83,15 @@ func (a *AlgoGAES) Run() {
 		// Set best individual
 		a.SetBestResult(a.pop.genotypes[0], a.pop.fitness[0])
 
+		a.logger.Printf("generation : %d, best fitness: %f\n", gen, a.pop.fitness[0])
+
 		if a.isStopRequired == true {
 			a.state = Stopped
 			break
 		}
-
-		a.logger.Printf("generation : %d, best fitness: %f\n", gen, a.pop.fitness[0])
 	}
 
+	fmt.Println()
 	a.logger.Println("end of ES algorithm, best individual:")
-	a.logger.Println(a.pop.genotypes[0])
-	a.logger.Printf("generation : %d, best fitness: %f\n", a.generationIndex, a.pop.fitness[0])
-
+	a.logger.Printf("%+v\n", a.pop.genotypes[0].GetGenes())
 }

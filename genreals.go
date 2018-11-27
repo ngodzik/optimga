@@ -104,6 +104,11 @@ func (r *RealES) mutate() {
 	}
 }
 
+func (r *RealES) GetGenes() []float64 {
+
+	return r.genes
+}
+
 func (r *RealES) clone() Genotype {
 
 	rclone := new(RealES)

@@ -6,11 +6,14 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"os"
+	"os/signal"
 	"runtime"
 	"sort"
 	"sync"
 )
 
+// State defines the current state of the algorithm.
 type State int
 
 const (
@@ -171,4 +174,18 @@ func (a *AlgoPop) GetCurrentBestResult() (Genotype, Fitness) {
 	a.mutex.Unlock()
 
 	return bestGenotype, bestFitness
+}
+
+func (a *AlgoPop) WaitSignal() {
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	go func() {
+		// Block until a signal is received.
+		_ = <-c
+		fmt.Println("Got interrupt signal, algorithm will stop at the end of the current generation")
+		a.Stop()
+	}()
+
 }

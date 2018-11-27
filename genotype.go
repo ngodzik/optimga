@@ -10,6 +10,7 @@ type Genotype interface {
 	eval() Fitness
 	setEval(isEvalDone bool)
 	isEvaluated() bool
+	GetGenes() []float64
 }
 
 type genotypeCommon struct {
